@@ -1,27 +1,32 @@
 const contracts = [
   {
-    icon: "📱",
-    name: "vivo V70",
-    contract: "SBR0001339",
-    amount: "2,230 บาท / เดือน",
-    installments: "14 งวด",
-    status: "🟠 รอชำระ"
+    id:"vivo",
+    icon:"📱",
+    name:"vivo V70",
+    contract:"SBR0001339",
+    amount:"2,230 บาท / เดือน",
+    installments:"14 งวด",
+    status:"🟠 รอชำระ"
   },
+
   {
-    icon: "⌚",
-    name: "Redmi Watch 5 Lite",
-    contract: "ยอดคงเหลือ 3,180 บาท",
-    amount: "265 บาท / สัปดาห์",
-    installments: "12 งวด",
-    status: "🟠 รอชำระ"
+    id:"watch",
+    icon:"⌚",
+    name:"Redmi Watch 5 Lite",
+    contract:"ยอดคงเหลือ 3,180 บาท",
+    amount:"265 บาท / สัปดาห์",
+    installments:"12 งวด",
+    status:"🟠 รอชำระ"
   },
+
   {
-    icon: "🎧",
-    name: "Soundcore R60i NC",
-    contract: "ยอดคงเหลือ 1,300 บาท",
-    amount: "130 บาท / สัปดาห์",
-    installments: "12 งวด",
-    status: "🟠 รอชำระ"
+    id:"soundcore",
+    icon:"🎧",
+    name:"Soundcore R60i NC",
+    contract:"ยอดคงเหลือ 1,300 บาท",
+    amount:"130 บาท / สัปดาห์",
+    installments:"12 งวด",
+    status:"🟠 รอชำระ"
   }
 ];
 
@@ -46,7 +51,10 @@ contracts.forEach(item => {
 
     <p>${item.status}</p>
 
-    <button class="btn">ดูรายละเอียด</button>
+    <button class="btn"
+onclick="location.href='detail.html?id=${item.id}'">
+ดูรายละเอียด
+</button>
   `;
 
   contractsDiv.appendChild(card);
