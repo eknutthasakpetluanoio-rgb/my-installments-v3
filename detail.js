@@ -57,3 +57,4 @@ document.addEventListener("DOMContentLoaded",()=>{
 path = Path("/mnt/data/detail.js")
 path.write_text(js, encoding="utf-8")
 print(path)
+
