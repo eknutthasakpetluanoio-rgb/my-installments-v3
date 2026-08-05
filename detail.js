@@ -85,9 +85,14 @@ data.dates.forEach((date,index)=>{
 
         <p><strong>ยอด</strong><br>${data.installmentAmount.toLocaleString()} บาท</p>
 
-        <button class="btn" ${paid?"disabled":""}>
-            ${paid?"✅ ชำระแล้ว":"💳 ชำระเงิน"}
-        </button>
+        <button
+    class="btn"
+    ${paid ? "disabled" : ""}
+    onclick="payInstallment(${index})">
+
+    ${paid ? "✅ ชำระแล้ว" : "💳 ชำระเงิน"}
+
+</button>
 
     </div>
     `;
