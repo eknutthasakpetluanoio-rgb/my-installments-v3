@@ -74,7 +74,9 @@ const list = document.getElementById("scheduleList");
 
 data.dates.forEach((date,index)=>{
 
-    const paid = index < data.paidInstallments;
+    const paidList = JSON.parse(localStorage.getItem("paid_"+id)) || [];
+
+const paid = paidList.includes(index) || index < data.paidInstallments;
 
     list.innerHTML += `
     <div class="card">
@@ -86,11 +88,11 @@ data.dates.forEach((date,index)=>{
         <p><strong>ยอด</strong><br>${data.installmentAmount.toLocaleString()} บาท</p>
 
         <button
-    class="btn"
-    ${paid ? "disabled" : ""}
-    onclick="payInstallment(${index})">
+class="btn"
+${paid ? "disabled" : ""}
+onclick="payInstallment(${index})">
 
-    ${paid ? "✅ ชำระแล้ว" : "💳 ชำระเงิน"}
+${paid ? "✅ ชำระแล้ว" : "💳 ชำระเงิน"}
 
 </button>
 
@@ -104,5 +106,22 @@ function payInstallment(index){
     if(!ok) return;
 
     alert("✅ ชำระงวดที่ " + (index+1) + " เรียบร้อย");
+
+}
+function payInstallment(index){
+
+    if(!confirm(`ยืนยันชำระงวดที่ ${index+1} ?`)) return;
+
+    const key = "paid_" + id;
+
+    let paidList = JSON.parse(localStorage.getItem(key)) || [];
+
+    if(!paidList.includes(index)){
+        paidList.push(index);
+    }
+
+    localStorage.setItem(key, JSON.stringify(paidList));
+
+    location.reload();
 
 }
