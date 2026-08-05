@@ -1,60 +1,88 @@
-from pathlib import Path
-
-js = r"""// My Installments V3 - detail.js
-
 const contracts = {
   vivo: {
-    title: "📱 vivo V70",
+    name: "📱 vivo V70",
     contract: "SBR0001339",
+    remain: 31220,
     installmentAmount: 2230,
     totalInstallments: 14,
+    paidInstallments: 1,
     dates: [
       "15/08/2569","15/09/2569","15/10/2569","15/11/2569",
       "15/12/2569","15/01/2570","15/02/2570","15/03/2570",
       "15/04/2570","15/05/2570","15/06/2570","15/07/2570",
       "15/08/2570","15/09/2570"
     ]
+  },
+
+  watch: {
+    name: "⌚ Redmi Watch 5 Lite",
+    contract: "WATCH0001",
+    remain: 3180,
+    installmentAmount: 265,
+    totalInstallments: 12,
+    paidInstallments: 0,
+    dates: [
+      "01/08/2569","08/08/2569","15/08/2569","22/08/2569",
+      "29/08/2569","05/09/2569","12/09/2569","19/09/2569",
+      "26/09/2569","03/10/2569","10/10/2569","17/10/2569"
+    ]
+  },
+
+  soundcore: {
+    name: "🎧 Soundcore R60i NC",
+    contract: "R600001",
+    remain: 1300,
+    installmentAmount: 130,
+    totalInstallments: 12,
+    paidInstallments: 0,
+    dates: [
+      "01/08/2569","08/08/2569","15/08/2569","22/08/2569",
+      "29/08/2569","05/09/2569","12/09/2569","19/09/2569",
+      "26/09/2569","03/10/2569","10/10/2569","17/10/2569"
+    ]
   }
 };
 
-function renderSchedule(id="vivo"){
-  const c = contracts[id];
-  const container = document.getElementById("schedule");
-  if(!container || !c) return;
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "vivo";
+const data = contracts[id];
 
-  container.innerHTML = "";
+document.getElementById("productName").textContent = data.name;
+document.getElementById("contractNumber").textContent =
+"เลขสัญญา : " + data.contract;
 
-  c.dates.forEach((date,index)=>{
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <h3>งวดที่ ${index+1}</h3>
-      <div class="row">
-        <span>กำหนดชำระ</span>
-        <strong>${date}</strong>
-      </div>
-      <div class="row">
-        <span>ยอด</span>
-        <strong>${c.installmentAmount.toLocaleString()} บาท</strong>
-      </div>
-      <button class="btn" onclick="markPaid(${index})">
-        ชำระแล้ว
-      </button>
+document.getElementById("remainAmount").textContent =
+data.remain.toLocaleString() + " บาท";
+
+const percent = Math.round(
+(data.paidInstallments / data.totalInstallments) * 100
+);
+
+document.getElementById("progressText").textContent =
+percent + "%";
+
+document.getElementById("progressBar").style.width =
+percent + "%";
+
+const list = document.getElementById("scheduleList");
+
+data.dates.forEach((date,index)=>{
+
+    const paid = index < data.paidInstallments;
+
+    list.innerHTML += `
+    <div class="card">
+
+        <h3>งวดที่ ${index+1}</h3>
+
+        <p><strong>กำหนดชำระ</strong><br>${date}</p>
+
+        <p><strong>ยอด</strong><br>${data.installmentAmount.toLocaleString()} บาท</p>
+
+        <button class="btn" ${paid?"disabled":""}>
+            ${paid?"✅ ชำระแล้ว":"💳 ชำระเงิน"}
+        </button>
+
+    </div>
     `;
-    container.appendChild(card);
-  });
-}
-
-function markPaid(index){
-  alert(`บันทึกงวดที่ ${index+1} แล้ว (เวอร์ชันถัดไปจะบันทึกลง Local Storage)`);
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-  renderSchedule();
 });
-"""
-
-path = Path("/mnt/data/detail.js")
-path.write_text(js, encoding="utf-8")
-print(path)
-
