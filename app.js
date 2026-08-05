@@ -50,9 +50,9 @@ contracts.forEach(item => {
 
     <p><strong>ยอดผ่อน</strong><br>${item.amount}</p>
 
-    <p><strong>จำนวนงวด</strong><br>${item.installments}</p>
+    <p><strong>ยอดคงเหลือ</strong><br>${item.remain}</p>
 
-     <p><strong>ยอดคงเหลือ</strong><br>${item.remain}</p>
+    <p><strong>จำนวนงวด</strong><br>${item.installments}</p>
 
     <p>${item.status}</p>
 
