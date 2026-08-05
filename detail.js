@@ -45,45 +45,59 @@ const contracts = {
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "vivo";
- 
-if (!contracts[id]) {
-    alert("ไม่พบข้อมูลสัญญา : " + id);
-    throw new Error("Unknown contract: " + id);
+
+const contract = contracts[id];
+
+if (!contract) {
+
+    document.getElementById("productName").textContent =
+    "ไม่พบข้อมูล";
+
+    throw new Error("Contract Not Found");
+
 }
+const storageKey = "paid_" + id;
 
-const data = contracts[id];
+const paidList =
+JSON.parse(localStorage.getItem(storageKey)) || [];
 
-document.getElementById("productName").textContent = data.name;
-document.getElementById("contractNumber").textContent =
-"เลขสัญญา : " + data.contract;
+const paidCount =
+contract.paidInstallments + paidList.length;
 
-const remain =
-data.remain - (paidList.length * data.installmentAmount);
+const remainAmount =
+contract.remain -
+(paidList.length * contract.installmentAmount);
 
-document.getElementById("remainAmount").textContent =
-remain.toLocaleString() + " บาท";
-
-const paidList = JSON.parse(localStorage.getItem("paid_" + id)) || [];
-
-const paidCount = data.paidInstallments + paidList.length;
-
-const percent = Math.round(
-    (paidCount / data.totalInstallments) * 100
+const progress =
+Math.round(
+(paidCount / contract.totalInstallments) * 100
 );
 
+document.getElementById("productName").textContent =
+contract.name;
+
+document.getElementById("contractNumber").textContent =
+"เลขสัญญา : " + contract.contract;
+
+document.getElementById("remainAmount").textContent =
+remainAmount.toLocaleString() + " บาท";
+
 document.getElementById("progressText").textContent =
-percent + "%";
+progress + "%";
 
 document.getElementById("progressBar").style.width =
-percent + "%";
+progress + "%";
+
 
 const list = document.getElementById("scheduleList");
 
-data.dates.forEach((date,index)=>{
+contract.dates.forEach((date,index)=>{
 
     const paidList = JSON.parse(localStorage.getItem("paid_"+id)) || [];
 
-const paid = paidList.includes(index) || index < data.paidInstallments;
+const paid =
+index < contract.paidInstallments ||
+paidList.includes(index);
 
     list.innerHTML += `
     <div class="card">
@@ -106,15 +120,8 @@ ${paid ? "✅ ชำระแล้ว" : "💳 ชำระเงิน"}
     </div>
     `;
 });
-function payInstallment(index){
 
-    const ok = confirm("ยืนยันการชำระงวดนี้ใช่หรือไม่?");
 
-    if(!ok) return;
-
-    alert("✅ ชำระงวดที่ " + (index+1) + " เรียบร้อย");
-
-}
 function payInstallment(index){
 
     if(!confirm(`ยืนยันชำระงวดที่ ${index+1} ?`)) return;
