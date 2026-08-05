@@ -61,8 +61,10 @@ const storageKey = "paid_" + id;
 const paidList =
 JSON.parse(localStorage.getItem(storageKey)) || [];
 
-const paidCount =
-contract.paidInstallments + paidList.length;
+const paidCount = Math.max(
+    contract.paidInstallments,
+    paidList.length
+);
 
 const remainAmount =
 contract.remain -
