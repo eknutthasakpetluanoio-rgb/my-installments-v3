@@ -1,61 +1,48 @@
-from pathlib import Path
-
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>รายละเอียดสัญญา</title>
-<link rel="stylesheet" href="style.css">
-<style>
-.progress{height:10px;background:#2b2b2b;border-radius:99px;overflow:hidden;margin:16px 0}
-.progress>div{height:100%;width:7%;background:#3b82f6}
-.card{background:#1f2937;border-radius:16px;padding:18px;margin:16px}
-.row{display:flex;justify-content:space-between;margin:10px 0}
-.back{display:block;text-align:center;padding:14px;background:#2563eb;color:#fff;border-radius:12px;text-decoration:none;margin:20px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดสัญญา</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
-<h1>📱 vivo V70</h1>
-<p>รายละเอียดสัญญา</p>
+
+    <button class="back-btn" onclick="history.back()">
+        ←
+    </button>
+
+    <div>
+        <h1 id="productName">กำลังโหลด...</h1>
+        <p id="contractNumber"></p>
+    </div>
+
 </header>
 
 <main>
 
-<div class="card">
-<div class="row"><span>เลขสัญญา</span><strong>SBR0001339</strong></div>
+<div class="dashboard">
 
-<div class="progress"><div></div></div>
+    <h2>ยอดคงเหลือ</h2>
 
-<div class="row"><span>ยอดผ่อน</span><strong>2,230 บาท / เดือน</strong></div>
-<div class="row"><span>จำนวนงวด</span><strong>14 งวด</strong></div>
-<div class="row"><span>สถานะ</span><strong>🟠 รอชำระ</strong></div>
+    <h1 id="remainAmount">0 บาท</h1>
+
+    <p id="progressText">0%</p>
+
+    <div class="progress">
+        <div id="progressBar"></div>
+    </div>
+
 </div>
 
-<div class="card">
-<h3>งวดที่ 1</h3>
-<div class="row"><span>ครบกำหนด</span><strong>15/08/2569</strong></div>
-<div class="row"><span>ยอด</span><strong>2,230 บาท</strong></div>
-<button class="btn">ชำระเงิน</button>
-</div>
-
-<div class="card">
-<h3>งวดที่ 2</h3>
-<div class="row"><span>ครบกำหนด</span><strong>15/09/2569</strong></div>
-<div class="row"><span>ยอด</span><strong>2,230 บาท</strong></div>
-<button class="btn">ชำระเงิน</button>
-</div>
-
-<a class="back" href="index.html">← กลับหน้าหลัก</a>
+<div id="scheduleList"></div>
 
 </main>
+
+<script src="detail.js"></script>
+
 </body>
 </html>
-"""
-
-path=Path("/mnt/data/detail.html")
-path.write_text(html,encoding="utf-8")
-print(path)
-
