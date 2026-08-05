@@ -97,3 +97,12 @@ data.dates.forEach((date,index)=>{
     </div>
     `;
 });
+function payInstallment(index){
+
+    const ok = confirm("ยืนยันการชำระงวดนี้ใช่หรือไม่?");
+
+    if(!ok) return;
+
+    alert("✅ ชำระงวดที่ " + (index+1) + " เรียบร้อย");
+
+}
