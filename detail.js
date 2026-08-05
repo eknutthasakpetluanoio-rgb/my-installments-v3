@@ -57,11 +57,18 @@ document.getElementById("productName").textContent = data.name;
 document.getElementById("contractNumber").textContent =
 "เลขสัญญา : " + data.contract;
 
+const remain =
+data.remain - (paidList.length * data.installmentAmount);
+
 document.getElementById("remainAmount").textContent =
-data.remain.toLocaleString() + " บาท";
+remain.toLocaleString() + " บาท";
+
+const paidList = JSON.parse(localStorage.getItem("paid_" + id)) || [];
+
+const paidCount = data.paidInstallments + paidList.length;
 
 const percent = Math.round(
-(data.paidInstallments / data.totalInstallments) * 100
+    (paidCount / data.totalInstallments) * 100
 );
 
 document.getElementById("progressText").textContent =
