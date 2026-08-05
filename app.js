@@ -8,7 +8,7 @@ const contracts = [
   remain:"31,220 บาท",
   installments:"14 งวด",
   status:"🟠 รอชำระ"
-}
+},
 
   {
     id:"watch",
