@@ -45,6 +45,14 @@ const contracts = {
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "vivo";
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "vivo";
+
+if (!contracts[id]) {
+    alert("ไม่พบข้อมูลสัญญา : " + id);
+    throw new Error("Unknown contract: " + id);
+}
+
 const data = contracts[id];
 
 document.getElementById("productName").textContent = data.name;
